@@ -12,10 +12,10 @@ export const LanguageKeys = [
 ]
 
 
-export function SetLang(num : number)
+export function SetLang(lang : string)
 {
-    currentLanguage = LanguageKeys[num] as Language ?? undefined;
-    console.info("Set", currentLanguage)
+    currentLanguage = lang as Language ?? undefined;
+    console.info("Set", currentLanguage);
 }
 const appLanguage = (navigator.language.replace('-', '') as Language) || 'en';
 

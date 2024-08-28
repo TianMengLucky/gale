@@ -191,7 +191,7 @@ pub struct Prefs {
     zoom_factor: f32,
 
     #[serde(alias = "language")]
-    language: i32,
+    language: String,
 
     pub game_prefs: HashMap<String, GamePrefs>,
 }
@@ -272,7 +272,7 @@ impl Default for Prefs {
             enable_mod_cache: true,
             fetch_mods_automatically: true,
 
-            language: 0,
+            language: "en".to_owned(),
             zoom_factor: 1.0,
 
             game_prefs: HashMap::new(),

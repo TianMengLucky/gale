@@ -120,7 +120,7 @@
 			Changing this will move the existing cache.
 		</PathPref>
 
-		<LanguagePref set={set((value, prefs) => (prefs.language = value))} />
+		<LanguagePref value= {prefs.language} set={set((value, prefs) => (prefs.language = value))} />
 
 		<div class="text-2xl mt-6 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
 			{$activeGame?.displayName} settings

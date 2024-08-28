@@ -265,7 +265,7 @@ export interface Prefs {
 	enableModCache: boolean;
 	fetchModsAutomatically: boolean;
 	zoomFactor: number;
-	language : number;
+	language : string;
 	gamePrefs: Map<string, GamePrefs>;
 }
 

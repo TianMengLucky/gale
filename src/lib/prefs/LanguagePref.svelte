@@ -5,9 +5,10 @@
     import Lang from '$i18n/Lang.json';
 	import type { Prefs } from '$lib/models';
 	import { goto } from '$app/navigation';
+	import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 
-	export let value: number = LanguageKeys.indexOf(currentLanguage as string);
-    export let set: (newValue: number) => void;
+	export let value: string;
+    export let set: (newValue: string) => void;
 
     function GetLangName(name: string) : string
     {
@@ -17,14 +18,6 @@
 
         return Lang[key];
     }
-
-    function Reload()
-    {
-        var thisPage = window.location.pathname;
-        goto('/').then(
-            () => goto(thisPage)
-        );
-    }
 </script>
 
 <div class="flex items-center">
@@ -33,13 +26,12 @@
 	<Dropdown
 		class="flex-grow"
 		items= { LanguageKeys }
-		selected= { LanguageKeys[value] }
+		selected= { value }
 		onSelectedChangeSingle={(newValue) => {
-			value = LanguageKeys.indexOf(newValue);
-            console.info("value:",value, newValue);
+			value = newValue;
+            console.info("value:",value);
             set(value);
             SetLang(value);
-            Reload();
 		}}
 		getLabel={(name) => GetLangName(name)}
 	/>
