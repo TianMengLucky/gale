@@ -6,10 +6,23 @@ const translations = {
     zhCN
 };
 
-type Language = 'en' | 'zhCN';
+export const LanguageKeys = [
+    "en",
+    "zhCN"
+]
+
+
+export function SetLang(num : number)
+{
+    currentLanguage = LanguageKeys[num] as Language ?? undefined;
+    console.info("Set", currentLanguage)
+}
 const appLanguage = (navigator.language.replace('-', '') as Language) || 'en';
 
-export const t = translations[appLanguage]
+export type Language = 'en' | 'zhCN';
+export let currentLanguage : Language = appLanguage;
+
+export let t = translations[currentLanguage]
 
 /**
  * Translate string with %placeholder%

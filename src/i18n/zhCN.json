@@ -115,8 +115,7 @@
     "Zoom factor description": "修改软件的缩放等级。",
 
 
-
-
+    "Global settings": "全局设置",
     "Settings": "设置",
     "Steam executable": "Steam 路径",
     "Steam executable description": "启动 Steam 程序的路径。",
@@ -125,7 +124,9 @@
     "Gale data directory": "Gale 数据文件夹",
     "Gale data directory description": "存放配置以及其他应用数据的文件夹。",
     "Gale cache directory": "Gale 缓存文件夹",
-    "Gale cache directory description": "存放模组缓存的文件夹。该文件夹会占用相当大的空间。",
+    "Gale cache directory description": "存放模组缓存的文件夹。占用内存较大，注意内存余量",
+    "Language": "语言",
+    "Language description": "设置Gale当前语言",
 
 
 

@@ -11,6 +11,8 @@
 	import type { Prefs, GamePrefs } from '$lib/models';
 	import { onMount } from 'svelte';
 	import { invokeCommand } from '$lib/invoke';
+	import { t } from '$i18n';
+	import LanguagePref from '$lib/prefs/LanguagePref.svelte';
 
 	let prefs: Prefs | null = null;
 	let gamePrefs: GamePrefs | null = null;
@@ -41,7 +43,7 @@
 <div class="flex flex-col gap-1 py-4 px-6 w-full overflow-y-auto">
 	{#if prefs !== null && gamePrefs !== null}
 		<div class="text-2xl mt-2 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
-			Global settings
+			{t["Global settings"]}
 		</div>
 
 		<ZoomLevelPref
@@ -72,7 +74,7 @@
 			thereafter. This will ensure the mod list is up-to-date, but can be disabled to save
 			bandwidth.
 			<br />
-			To manually trigger a fetch, go to <b>File > Fetch mods</b>.
+			To manually trigger a fetch, go to <b>File  Fetch mods</b>.
 		</TogglePref>
 
 		<Separator.Root class="h-2" />
@@ -101,7 +103,7 @@
 			label="Data directory"
 			type="dir"
 			value={prefs.dataDir}
-			set={set((value, prefs) => (prefs.dataDir = value))}
+			set={set((value, prefs) => prefs.dataDir = value ?? prefs.dataDir)}
 		>
 			Directory where profiles and other app data is stored.
 			<br />
@@ -111,12 +113,14 @@
 			label="Download cache directory"
 			type="dir"
 			value={prefs.cacheDir}
-			set={set((value, prefs) => (prefs.cacheDir = value))}
+			set={set((value, prefs) => prefs.cacheDir = value ?? prefs.cacheDir)}
 		>
 			Directory where cached mods are stored.
 			<br />
 			Changing this will move the existing cache.
 		</PathPref>
+
+		<LanguagePref set={set((value, prefs) => (prefs.language = value))} />
 
 		<div class="text-2xl mt-6 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
 			{$activeGame?.displayName} settings

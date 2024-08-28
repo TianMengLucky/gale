@@ -150,8 +150,8 @@
     "Zoom factor": "Zoom factor",
     "Zoom factor description": "Changes the zoom level of the mod manager.",
 
-
-
+    
+    "Global settings": "Global settings",
     "Settings": "Settings",
     "Steam executable": "Steam executable",
     "Steam executable description": "Path to the Steam executable.",
@@ -161,6 +161,8 @@
     "Gale data directory description": "Directory where profiles and other app data is stored.",
     "Gale cache directory": "Gale cache directory",
     "Gale cache directory description": "Directory where cached mods are stored. This can take up a considerable amount of space.",
+    "Language": "Language",
+    "Language description": "Set Current Language",
 
 
     "Home page": "Home page",
