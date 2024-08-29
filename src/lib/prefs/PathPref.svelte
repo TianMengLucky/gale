@@ -8,7 +8,7 @@
 	import { sentenceCase } from '$lib/util';
 
 	import { get } from 'svelte/store';
-	import { t } from '$i18n';
+	import { t, currentTranslations} from '$i18n';
 
 	export let label: string;
 	export let type: 'dir' | 'file';
@@ -20,7 +20,7 @@
 	function browse() {
 		open({
 			defaultPath: value ?? undefined,
-			title: get(t)['Select'] + ' ' + label,
+			title: get(currentTranslations)['Select'] + ' ' + label,
 			directory: type === 'dir'
 		}).then(async (result) => {
 			if (result === null) return;

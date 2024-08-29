@@ -5,7 +5,7 @@
 	import type { Dependant, Mod } from '$lib/models';
 
 	import { get } from 'svelte/store';
-	import { T, t } from '$i18n';
+	import { T, t, currentTranslations } from '$i18n';
 
 	export let title: string;
 	export let verb: string;
@@ -48,7 +48,7 @@
 	{onCancel}
 	bind:open
 >
-	{description.replaceAll('%s', mod?.name ?? get(t)["Unknown"])}
+	{description.replaceAll('%s', mod?.name ?? get(currentTranslations)["Unknown"])}
 
 	<ul class="mt-1">
 		{#each dependants as dependant}
@@ -58,10 +58,10 @@
 	
 	<svelte:fragment slot="buttons">
 		<BigButton on:click={executeOne} color="red" outline={true}>
-			{T(get(t)['Dependants action only'], {"verb": verb, "name": mod?.name})}
+			{T(get(currentTranslations)['Dependants action only'], {"verb": verb, "name": mod?.name})}
 		</BigButton>
 		<BigButton on:click={executeAll} color={isPositive ? 'green' : 'red'} fontWeight="semibold">
-			{T(get(t)['Dependants action all'], {"verb": verb})}
+			{T(get(currentTranslations)['Dependants action all'], {"verb": verb})}
 		</BigButton>
 	</svelte:fragment>
 </ConfirmPopup>

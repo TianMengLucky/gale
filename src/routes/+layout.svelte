@@ -6,20 +6,20 @@
 
 	import { errors, removeError } from '$lib/invoke';
 
-	import { Button } from 'bits-ui';
+	import { Button, ContextMenu } from 'bits-ui';
 	import Icon from '@iconify/svelte';
 
 	import { expoOut } from 'svelte/easing';
 	import { fade, fly, slide } from 'svelte/transition';
-	import { onDestroy, onMount } from 'svelte';
+	import { getAllContexts, onDestroy, onMount } from 'svelte';
 	import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 	import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 	import NavbarLink from '$lib/menu/NavbarLink.svelte';
 	import InstallProgressPopup from '$lib/modlist/InstallProgressPopup.svelte';
 	import WelcomePopup from '$lib/menu/WelcomePopup.svelte';
 
-	import { get } from 'svelte/store';
-	import { t } from "$i18n"
+	import { get} from 'svelte/store';
+	import { t, currentTranslations } from "$i18n"
 
 	let status: string | undefined;
 	let unlisten: UnlistenFn | undefined;
@@ -27,8 +27,10 @@
 	onMount(async () => {
 		unlisten = await listen<string | undefined>('status_update', (evt) => {
 			status = evt.payload;
-		});
+		})
+		console.info(location.pathname);
 	});
+
 
 	onDestroy(() => {
 		if (unlisten) {
@@ -52,13 +54,13 @@
 		<div
 			class="flex flex-col gap-1 items-center p-2 w-14 bg-gray-900 border-r border-gray-600 flex-shrink-0"
 		>
-			<NavbarLink to="/" icon="mdi:home" tooltip="{get(t)["Home page"]}" />
-			<NavbarLink to="/profile" icon="mdi:account-circle" tooltip="{get(t)["Manage profile"]}" />
-			<NavbarLink to="/mods" icon="material-symbols:browse" tooltip="{get(t)["Browse mods"]}" />
-			<NavbarLink to="/config" icon="mdi:file-cog" tooltip="{get(t)["Edit mod config"]}" />
-			<NavbarLink to="/modpack" icon="mdi:package-variant" tooltip="{get(t)["Export modpack"]}" />
+			<NavbarLink to="/" icon="mdi:home" tooltip="{get(currentTranslations)["Home page"]}" />
+			<NavbarLink to="/profile" icon="mdi:account-circle" tooltip="{get(currentTranslations)["Manage profile"]}" />
+			<NavbarLink to="/mods" icon="material-symbols:browse" tooltip="{get(currentTranslations)["Browse mods"]}" />
+			<NavbarLink to="/config" icon="mdi:file-cog" tooltip="{get(currentTranslations)["Edit mod config"]}" />
+			<NavbarLink to="/modpack" icon="mdi:package-variant" tooltip="{get(currentTranslations)["Export modpack"]}" />
 			<div class="flex-grow" />
-			<NavbarLink to="/prefs" icon="mdi:settings" tooltip="{get(t)["Edit manager settings"]}" />
+			<NavbarLink to="/prefs" icon="mdi:settings" tooltip="{get(currentTranslations)["Edit manager settings"]}" />
 		</div>
 
 		<slot />

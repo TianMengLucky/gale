@@ -13,7 +13,9 @@
 	import { invokeCommand } from '$lib/invoke';
 
 	import { get } from 'svelte/store';
-	import { T, t } from '$i18n';
+	import { setLang, T, t, type Language, currentTranslations, language } from '$i18n';
+	import LanguagePref from '$lib/prefs/LanguagePref.svelte';
+	import { goto } from '$app/navigation';
 
 	let prefs: Prefs | null = null;
 	let gamePrefs: GamePrefs | null = null;
@@ -44,7 +46,7 @@
 <div class="flex flex-col gap-1 py-4 px-6 w-full overflow-y-auto">
 	{#if prefs !== null && gamePrefs !== null}
 		<div class="text-2xl mt-2 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
-			{get(t)["Global settings"]}
+			{t("Global settings")}
 		</div>
 
 		<ZoomLevelPref
@@ -52,80 +54,98 @@
 			set={set((value, prefs) => (prefs.zoomFactor = value))}
 		/>
 
+		<LanguagePref  set = {set((value, prefs) => (prefs.language = value))} />
+
+		<Separator.Root class="h-2" />
+
+		<div class="text-2xl mt-2 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
+			{get(currentTranslations)["Game settings"]}
+		</div>
+
+		<LaunchModePref
+			value={gamePrefs.launchMode}
+			set={set((value, prefs) => 
+			{
+				var gamePrefs = prefs.gamePrefs.get(gameId);
+				if (gamePrefs !== undefined)
+					gamePrefs.launchMode = value;
+			})}
+		/>
+
 		<ApiKeyPref />
 
 		<TogglePref
-			label="{get(t)["Use download cache"]}"
+			label="{get(currentTranslations)["Use download cache"]}"
 			disableMessage="This will delete all cached mods. Are you sure?"
 			value={prefs.enableModCache}
 			set={set((value, prefs) => (prefs.enableModCache = value))}
 		>
-			{@html get(t)["Use download cache description"]}
+			{@html get(currentTranslations)["Use download cache description"]}
 		</TogglePref>
 
 		<TogglePref
-			label="{get(t)["Fetch mods automatically"]}"
+			label="{get(currentTranslations)["Fetch mods automatically"]}"
 			value={prefs.fetchModsAutomatically}
 			set={set((value, prefs) => (prefs.fetchModsAutomatically = value))}
 		>
-			{@html get(t)["Fetch mods automatically description"]}
+			{@html get(currentTranslations)["Fetch mods automatically description"]}
 		</TogglePref>
 
 		<Separator.Root class="h-2" />
 
 		<PathPref
-			label="{get(t)["Steam executable"]}"
+			label="{get(currentTranslations)["Steam executable"]}"
 			type="file"
 			value={prefs.steamExePath ?? null}
 			set={set((value, prefs) => (prefs.steamExePath = value ?? undefined))}
 		>
-			{get(t)["Steam executable description"]}
+			{get(currentTranslations)["Steam executable description"]}
 		</PathPref>
 
 		<PathPref
-			label="{get(t)["Steam library"]}"
+			label="{get(currentTranslations)["Steam library"]}"
 			type="dir"
 			value={prefs.steamLibraryDir ?? null}
 			set={set((value, prefs) => (prefs.steamLibraryDir = value ?? undefined))}
 		>
-			{@html get(t)["Steam library description"]}
+			{@html get(currentTranslations)["Steam library description"]}
 		</PathPref>
 
 		<Separator.Root class="h-2" />
 
 		<PathPref
-			label="{get(t)["Gale data directory short"]}"
+			label="{get(currentTranslations)["Gale data directory short"]}"
 			type="dir"
 			value={prefs.dataDir}
 			set={set((value, prefs) => (prefs.dataDir = value))}
 		>
-			{get(t)["Gale data directory description"]}
+			{get(currentTranslations)["Gale data directory description"]}
 			<br />
-			{get(t)["Dir Change will move"]}
+			{get(currentTranslations)["Dir Change will move"]}
 		</PathPref>
 		<PathPref
-			label="{get(t)["Gale cache directory short"]}"
+			label="{get(currentTranslations)["Gale cache directory short"]}"
 			type="dir"
 			value={prefs.cacheDir}
 			set={set((value, prefs) => (prefs.cacheDir = value))}
 		>
-			{get(t)["Gale cache directory description"]}
+			{get(currentTranslations)["Gale cache directory description"]}
 			<br />
-			{get(t)["Dir Change will move"]}
+			{get(currentTranslations)["Dir Change will move"]}
 		</PathPref>
 
 		<div class="text-2xl mt-6 mb-1 font-bold text-slate-100 border-b border-slate-500 pb-1">
-			{$activeGame?.displayName} {get(t)["settings"]}
+			{$activeGame?.displayName} {get(currentTranslations)["settings"]}
 		</div>
 
 		<PathPref
-			label="{get(t)["Override game directory"]}"
+			label="{get(currentTranslations)["Override game directory"]}"
 			type="dir"
 			canClear={true}
 			value={gamePrefs.dirOverride ?? null}
 			set={set((value) => (gamePrefs.dirOverride = value ?? undefined))}
 		>
-			{T(get(t)["Override game directory description"], {"name": $activeGame?.displayName})}
+			{T(get(currentTranslations)["Override game directory description"], {"name": $activeGame?.displayName})}
 		</PathPref>
 
 		<LaunchModePref

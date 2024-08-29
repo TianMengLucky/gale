@@ -6,7 +6,7 @@
 	import InputField from '$lib/components/InputField.svelte';
 	import ConfirmPopup from '$lib/components/ConfirmPopup.svelte';
 	import { get } from 'svelte/store';
-	import { t } from '$i18n';
+	import { t, currentTranslations} from '$i18n';
 
 	export let open = false;
 
@@ -22,16 +22,16 @@
 	}
 </script>
 
-<ConfirmPopup title="{get(t)['Create new profile']}" bind:open>
-	<p class="mb-1">{get(t)['Create new profile description']}</p>
+<ConfirmPopup title="{get(currentTranslations)['Create new profile']}" bind:open>
+	<p class="mb-1">{get(currentTranslations)['Create new profile description']}</p>
 	<InputField
-		placeholder="{get(t)['Enter profile name']}"
+		placeholder="{get(currentTranslations)['Enter profile name']}"
 		size="lg"
 		class="w-full"
 		on:submit={createProfile}
 		bind:value={name}
 	/>
 	<svelte:fragment slot="buttons">
-		<BigButton disabled={name.length === 0} on:click={createProfile}>{get(t)["Create"]}</BigButton>
+		<BigButton disabled={name.length === 0} on:click={createProfile}>{get(currentTranslations)["Create"]}</BigButton>
 	</svelte:fragment>
 </ConfirmPopup>

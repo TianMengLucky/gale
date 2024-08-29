@@ -7,7 +7,7 @@
 	import { sentenceCase } from '$lib/util';
 
 	import { get } from 'svelte/store';
-	import { t } from '$i18n';
+	import { t, currentTranslations} from '$i18n';
 
 	export let value: LaunchMode;
 	export let set: (value: LaunchMode) => Promise<void>;
@@ -32,13 +32,13 @@
 </script>
 
 <div class="flex items-center">
-	<Label text="{get(t)['Launch mode']}">
-		<p>{get(t)['Launch mode description']}</p>
+	<Label text="{get(currentTranslations)['Launch mode']}">
+		<p>{get(currentTranslations)['Launch mode description']}</p>
 		<p class="my-1.5">
-			{@html get(t)['Launch mode description steam']}
+			{@html get(currentTranslations)['Launch mode description steam']}
 		</p>
 		<p>
-			{@html get(t)['Launch mode description direct']}
+			{@html get(currentTranslations)['Launch mode description direct']}
 		</p>
 	</Label>
 
@@ -52,8 +52,8 @@
 </div>
 
 <div class="flex items-center">
-	<Label text="{get(t)["Number of instances"]}">
-		{get(t)["Number of instances description"]}
+	<Label text="{get(currentTranslations)["Number of instances"]}">
+		{get(currentTranslations)["Number of instances description"]}
 	</Label>
 
 	<InputField
@@ -67,8 +67,8 @@
 </div>
 
 <div class="flex items-center">
-	<Label text="{get(t)["Interval between launches"]}">
-		{get(t)["Interval between launches description"]}
+	<Label text="{get(currentTranslations)["Interval between launches"]}">
+		{get(currentTranslations)["Interval between launches description"]}
 	</Label>
 
 	<InputField

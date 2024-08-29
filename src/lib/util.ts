@@ -1,6 +1,6 @@
 import type { Mod, ConfigEntry } from './models';
 import { get } from 'svelte/store';
-import { t } from '$i18n';
+import { t, currentTranslations} from '$i18n';
 
 export function shortenFileSize(size: number): string {
 	var i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
@@ -38,25 +38,25 @@ export function timeSince(date: Date): string {
 	var interval = Math.floor(seconds / 31536000);
 
 	if (interval > 1) {
-		return interval + ` ${get(t)["years"]}`;
+		return interval + ` ${get(currentTranslations)["years"]}`;
 	}
 	interval = Math.floor(seconds / 2592000);
 	if (interval > 1) {
-		return interval + ` ${get(t)["months"]}`;
+		return interval + ` ${get(currentTranslations)["months"]}`;
 	}
 	interval = Math.floor(seconds / 86400);
 	if (interval > 1) {
-		return interval + ` ${get(t)["days"]}`;
+		return interval + ` ${get(currentTranslations)["days"]}`;
 	}
 	interval = Math.floor(seconds / 3600);
 	if (interval > 1) {
-		return interval + ` ${get(t)["hours"]}`;
+		return interval + ` ${get(currentTranslations)["hours"]}`;
 	}
 	interval = Math.floor(seconds / 60);
 	if (interval > 1) {
-		return interval + ` ${get(t)["minutes"]}`;
+		return interval + ` ${get(currentTranslations)["minutes"]}`;
 	}
-	return Math.floor(seconds) + ` ${get(t)["seconds"]}`;
+	return Math.floor(seconds) + ` ${get(currentTranslations)["seconds"]}`;
 }
 
 export function titleCase(str: string): string {

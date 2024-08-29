@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { T, t } from "$i18n";
+	import { T, t, currentTranslations } from '$i18n';
 	import Markdown from "$lib/components/Markdown.svelte";
 	import Popup from "$lib/components/Popup.svelte";
 	import type { MarkdownResponse, Mod } from "$lib/models";
@@ -34,12 +34,12 @@
       {#if value?.markdown}
         <Markdown source={value.markdown} />
       {:else}
-        <p class="text-red-300">{T(get(t)["No path found"], {"path": path})}</p>
+        <p class="text-red-300">{T(get(currentTranslations)["No path found"], {"path": path})}</p>
       {/if}
 		{:else}
-			<p class="text-red-300">{T(get(t)["Failed to load path"], {"path": path, "status": value?.status})}</p>
+			<p class="text-red-300">{T(get(currentTranslations)["Failed to load path"], {"path": path, "status": value?.status})}</p>
 		{/if}
 	{:catch error}
-		<p class="text-red-300">{T(get(t)["Failed to load path error"], {"path": path, "error": error})}</p>
+		<p class="text-red-300">{T(get(currentTranslations)["Failed to load path error"], {"path": path, "error": error})}</p>
 	{/await}
 </Popup>

@@ -31,7 +31,7 @@
 	import ModCard from '$lib/modlist/ModCard.svelte';
 	import Checklist from '$lib/components/Checklist.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
-	import { t, T } from '$i18n';
+	import { t, T, currentTranslations } from '$i18n';
 
 	const sortOptions = [
 		SortBy.Custom,
@@ -204,7 +204,7 @@
 				on:click={() => updateActiveMod('latest')}
 			>
 				<Icon icon="mdi:arrow-up-circle" class="text-xl align-middle" />
-				{T(get(t)["Update to version"], {"version": activeMod?.versions[0].name})}
+				{T(get(currentTranslations)["Update to version"], {"version": activeMod?.versions[0].name})}
 			</Button.Root>
 		{/if}
 	</div>
@@ -217,7 +217,7 @@
 							text-left rounded-md hover:bg-gray-600 cursor-default"
 				>
 					<Icon class="text-lg mr-1.5" icon="mdi:edit" />
-					{get(t)["Change version"]}
+					{get(currentTranslations)["Change version"]}
 					<Icon class="text-xl ml-4" icon="mdi:chevron-right" />
 				</DropdownMenu.SubTrigger>
 				<DropdownMenu.SubContent
@@ -240,7 +240,7 @@
 		{/if}
 
 		<ModDetailsDropdownItem
-			label="{get(t)["Open directory"]}"
+			label="{get(currentTranslations)["Open directory"]}"
 			icon="mdi:folder"
 			onClick={() => invokeCommand('open_plugin_dir', { uuid: activeMod?.uuid })}
 		/>
@@ -248,13 +248,13 @@
 		{#if activeMod?.type === 'remote'}
 			<ModDetailsDropdownItem
 				icon="mdi:source-branch"
-				label="{get(t)["Show dependants"]}"
+				label="{get(currentTranslations)["Show dependants"]}"
 				onClick={openDependants}
 			/>
 		{/if}
 
 		<ModDetailsDropdownItem
-			label="{get(t)["Uninstall"]}"
+			label="{get(currentTranslations)["Uninstall"]}"
 			icon="mdi:delete"
 			onClick={() =>
 				uninstall({
@@ -268,7 +268,7 @@
 		{#if unknownMods.length > 0}
 			<div class="flex items-center text-red-100 bg-red-600 mr-3 mb-1 pl-3 pr-1 py-1.5 rounded-lg">
 				<Icon icon="mdi:alert-circle" class="text-xl mr-2" />
-				{unknownMods.length === 1 ? get(t)["Following mod not found"] : get(t)["Following mods not found"]} 
+				{unknownMods.length === 1 ? get(currentTranslations)["Following mod not found"] : get(currentTranslations)["Following mods not found"]} 
 				{unknownMods
 					.map((mod) => mod.name)
 					.join(', ')}.
@@ -278,7 +278,7 @@
 						unknownMods.forEach(uninstall);
 					}}
 				>
-					{get(t)["Uninstall them"]}
+					{get(currentTranslations)["Uninstall them"]}
 				</Button.Root>
 			</div>
 		{/if}
@@ -289,15 +289,15 @@
 			>
 				<Icon icon="mdi:arrow-up-circle" class="text-xl mr-2" />
 				{@html updates.length === 1 
-				? T(get(t)["A mod update available"], {"length": updates.length.toString()})
-				: T(get(t)["Many mod update available"], {"length": updates.length.toString()})}
+				? T(get(currentTranslations)["A mod update available"], {"length": updates.length.toString()})
+				: T(get(currentTranslations)["Many mod update available"], {"length": updates.length.toString()})}
 				<Button.Root
 					class="hover:underline hover:text-green-200 text-white font-semibold ml-1"
 					on:click={() => {
 						updateAllOpen = true;
 					}}
 				>
-					{get(t)["Update all question"]}
+					{get(currentTranslations)["Update all question"]}
 				</Button.Root>
 
 				<Button.Root
@@ -337,11 +337,11 @@
 	</div>
 </ModList>
 
-<ConfirmPopup title="{get(t)["Confirm update"]}" bind:open={updateAllOpen}>
-	{get(t)["Confirm update description"]}
+<ConfirmPopup title="{get(currentTranslations)["Confirm update"]}" bind:open={updateAllOpen}>
+	{get(currentTranslations)["Confirm update description"]}
 
 	<Checklist
-		title="{get(t)["Update all"]}"
+		title="{get(currentTranslations)["Update all"]}"
 		set={(update, _, value) => {
 			includeUpdates.set(update, value);
 			includeUpdates = includeUpdates; // force reactivity
@@ -357,7 +357,7 @@
 		<Icon icon="mdi:arrow-right" class="text-slate-400 text-lg mx-1.5" />
 		<span class="text-green-400 font-semibold text-lg">{item.new}</span>
 
-		<Tooltip text="{get(t)["Ignore in update all"]}" side="left" sideOffset={-2}>
+		<Tooltip text="{get(currentTranslations)["Ignore in update all"]}" side="left" sideOffset={-2}>
 			<Button.Root
 				class="ml-2 p-1.5 text-slate-400 hover:text-slate-200 hover:bg-gray-700 rounded"
 				on:click={() => {
@@ -385,30 +385,30 @@
 				updateAllOpen = false;
 			}}
 		>
-			{get(t)["Update mods"]}
+			{get(currentTranslations)["Update mods"]}
 		</BigButton>
 	</svelte:fragment>
 </ConfirmPopup>
 
-<Popup title="{T(get(t)["Dependants of"], {"name": activeMod?.name})}" bind:open={dependantsOpen}>
+<Popup title="{T(get(currentTranslations)["Dependants of"], {"name": activeMod?.name})}" bind:open={dependantsOpen}>
 	<div class="text-slate-300 text-center mt-4">
 		{#if dependants}
 			{#if dependants.length === 0}
-				{get(t)["No dependants found"]}
+				{get(currentTranslations)["No dependants found"]}
 			{:else}
 				<ModCardList names={dependants} />
 			{/if}
 		{:else}
-			{get(t)["Loading"]}
+			{get(currentTranslations)["Loading"]}
 		{/if}
 	</div>
 </Popup>
 
 <DependantsPopup
 	bind:this={removeDependants}
-	title="{get(t)["Confirm removal"]}"
-	verb="{get(t)["Remove"]}"
-	description="{get(t)["Confirm removal description"]}"
+	title="{get(currentTranslations)["Confirm removal"]}"
+	verb="{get(currentTranslations)["Remove"]}"
+	description="{get(currentTranslations)["Confirm removal description"]}"
 	commandName="remove_mod"
 	onExecute={() => {
 		refresh();
@@ -419,9 +419,9 @@
 
 <DependantsPopup
 	bind:this={disableDependants}
-	title="{get(t)["Confirm disabling"]}"
-	verb="{get(t)["Disable"]}"
-	description="{get(t)["Confirm disabling description"]}"
+	title="{get(currentTranslations)["Confirm disabling"]}"
+	verb="{get(currentTranslations)["Disable"]}"
+	description="{get(currentTranslations)["Confirm disabling description"]}"
 	commandName="toggle_mod"
 	onExecute={refresh}
 	onCancel={refresh}
@@ -429,9 +429,9 @@
 
 <DependantsPopup
 	bind:this={enableDependencies}
-	title="{get(t)["Confirm enabling"]}"
-	verb="{get(t)["Enable"]}"
-	description="{get(t)["Confirm enabling description"]}"
+	title="{get(currentTranslations)["Confirm enabling"]}"
+	verb="{get(currentTranslations)["Enable"]}"
+	description="{get(currentTranslations)["Confirm enabling description"]}"
 	commandName="toggle_mod"
 	onExecute={refresh}
 	onCancel={refresh}

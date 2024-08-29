@@ -17,7 +17,7 @@
 	import ModCardList from '$lib/modlist/ModCardList.svelte';
 
 	import { get } from 'svelte/store';
-	import { t, T } from '$i18n';
+	import { T, t, currentTranslations } from '$i18n';
 
 	export let open: boolean;
 	export let data: ImportData | null;
@@ -60,8 +60,8 @@
 		data.name = name;
 
 		if (mode === 'overwrite') {
-			let confirmed = await confirm(T(get(t)['Import profile override description'], {"name": data.name}), {
-				title: get(t)['Import profile override']
+			let confirmed = await confirm(T(get(currentTranslations)['Import profile override description'], {"name": data.name}), {
+				title: get(currentTranslations)['Import profile override']
 			});
 
 			if (!confirmed) return;
@@ -77,18 +77,18 @@
 	}
 </script>
 
-<Popup title="{get(t)['Import profile']}" bind:open onClose={() => (data = null)}>
+<Popup title="{get(currentTranslations)['Import profile']}" bind:open onClose={() => (data = null)}>
 	{#if data}
 		<TabsMenu
 			bind:value={mode}
 			options={[
-				{ value: 'new', label: get(t)['Create new'] },
-				{ value: 'overwrite', label: get(t)['Overwrite existing'] }
+				{ value: 'new', label: get(currentTranslations)['Create new'] },
+				{ value: 'overwrite', label: get(currentTranslations)['Overwrite existing'] }
 			]}
 		>
 			<Tabs.Content value="new">
 				<div class="flex items-center">
-					<Label text="{get(t)['Profile name']}" />
+					<Label text="{get(currentTranslations)['Profile name']}" />
 
 					<InputField bind:value={name} class="w-full" />
 				</div>
@@ -97,14 +97,14 @@
 					<div class="flex items-center gap-1 text-red-400 text-md font-bold mt-1">
 						<div class="w-[30%] min-w-52" />
 						<Icon icon="mdi:error" class="text-lg" />
-						{T(get(t)['Profile name exists'], {"name": name})}
+						{T(get(currentTranslations)['Profile name exists'], {"name": name})}
 					</div>
 				{/if}
 			</Tabs.Content>
 
 			<Tabs.Content value="overwrite">
 				<div class="flex items-center">
-					<Label text="{get(t)['Choose profile']}" />
+					<Label text="{get(currentTranslations)['Choose profile']}" />
 
 					<Dropdown
 						class="flex-grow"
@@ -117,7 +117,7 @@
 		</TabsMenu>
 
 		{#if data.modNames}
-			<h3 class="text-white text-lg font-semibold mt-2">{T(get(t)['Many mods to install'], {"length": data.mods.length.toString()})}</h3>
+			<h3 class="text-white text-lg font-semibold mt-2">{T(get(currentTranslations)['Many mods to install'], {"length": data.mods.length.toString()})}</h3>
 			<ModCardList names={data.modNames} class="max-h-[55lvh] mt-2" />
 		{/if}
 
@@ -125,20 +125,20 @@
 			<BigButton color="gray" on:click={() => {
 				open = false;
 				data = null;
-			}}>{get(t)["Cancel"]}</BigButton>
-			<BigButton disabled={!nameAvailable || loading} on:click={importData}>{get(t)["Import"]}</BigButton>
+			}}>{get(currentTranslations)["Cancel"]}</BigButton>
+			<BigButton disabled={!nameAvailable || loading} on:click={importData}>{get(currentTranslations)["Import"]}</BigButton>
 		</div>
 	{:else}
 		<div class="flex gap-2 mt-1">
 			<div class="flex-grow">
-				<InputField bind:value={key} class="w-full" size="lg" placeholder="{get(t)['Enter import code']}" />
+				<InputField bind:value={key} class="w-full" size="lg" placeholder="{get(currentTranslations)['Enter import code']}" />
 			</div>
 
 			<BigButton on:click={submitKey} disabled={loading}>
 				{#if loading}
 					<Icon icon="mdi:loading" class="animate-spin" />
 				{:else}
-					{get(t)["Import"]}
+					{get(currentTranslations)["Import"]}
 				{/if}
 			</BigButton>
 		</div>

@@ -15,7 +15,7 @@
 	import { modQuery, activeGame } from '$lib/stores';
 
 	import { get } from 'svelte/store';
-	import { T, t } from '$i18n';
+	import { T, t, currentTranslations } from '$i18n';
 
 	const sortOptions = [SortBy.LastUpdated, SortBy.Newest, SortBy.Rating, SortBy.Downloads];
 
@@ -110,10 +110,10 @@
 			disabled={isActiveModInstalled}
 		>
 			{#if isActiveModInstalled}
-				{get(t)["Mod already installed"]}
+				{get(currentTranslations)["Mod already installed"]}
 			{:else}
 				<Icon icon="mdi:download" class="text-xl align-middle" />
-				{get(t)["Install"]}
+				{get(currentTranslations)["Install"]}
 				{#if activeDownloadSize !== undefined && activeDownloadSize > 0}
 					({shortenFileSize(activeDownloadSize)})
 				{/if}
@@ -169,8 +169,8 @@
 	</div>
 </ModList>
 
-<ConfirmPopup title="{get(t)["Missing dependencies"]}" bind:open={missingDepsOpen}>
-	{T(get(t)["Missing dependencies description"], {"name": activeMod?.name})}
+<ConfirmPopup title="{get(currentTranslations)["Missing dependencies"]}" bind:open={missingDepsOpen}>
+	{T(get(currentTranslations)["Missing dependencies description"], {"name": activeMod?.name})}
 
 	<ul class="mt-1">
 		{#each missingDeps as dep}
@@ -186,7 +186,7 @@
 				invokeCommand('install_mod', { modRef: activeModRef });
 			}}
 		>
-			{get(t)["Install anyway"]}
+			{get(currentTranslations)["Install anyway"]}
 		</BigButton>
 	</svelte:fragment>
 </ConfirmPopup>

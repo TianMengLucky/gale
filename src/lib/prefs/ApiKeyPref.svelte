@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { t } from '$i18n';
+	import { t, currentTranslations} from '$i18n';
 	import Label from '$lib/components/Label.svelte';
 	import { invokeCommand } from '$lib/invoke';
 	import { apiKeyPopupOpen } from './ApiKeyPopup.svelte';
@@ -20,8 +20,8 @@
 </script>
 
 <div class="flex items-center">
-	<Label text="{get(t)["Thunderstore token"]}">
-		{@html get(t)["Thunderstore token description"]}
+	<Label text="{get(currentTranslations)["Thunderstore token"]}">
+		{@html get(currentTranslations)["Thunderstore token description"]}
 	</Label>
 
 	<Button.Root
@@ -37,7 +37,7 @@
 		</div>
 
 		<div class="text-slate-300 group-hover:text-slate-200 truncate">
-			{hasToken ? get(t)['Click to override token'] : get(t)['Not set']}
+			{hasToken ? get(currentTranslations)['Click to override token'] : get(currentTranslations)['Not set']}
 		</div>
 
 		<slot name="field" />

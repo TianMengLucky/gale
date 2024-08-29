@@ -25,7 +25,7 @@
 	import { refreshUpdate } from './Updater.svelte';
 
 	import { get } from 'svelte/store';
-	import { t } from '$i18n';
+	import { t, currentTranslations} from '$i18n';
 
 	let importR2Open = false;
 	let newProfileOpen = false;
@@ -45,7 +45,7 @@
 	async function importModDir() {
 		let path = await open({
 			directory: true,
-			title: get(t)['Import mod directory description']
+			title: get(currentTranslations)['Import mod directory description']
 		});
 
 		if (path === null) return;
@@ -54,7 +54,7 @@
 
 	async function importModFile() {
 		let response = await open({
-			title: get(t)["Import mod file description"],
+			title: get(currentTranslations)["Import mod file description"],
 			filters: [{ name: 'Dll or zip', extensions: ['dll', 'zip'] }]
 		});
 
@@ -64,7 +64,7 @@
 
 	async function importFile() {
 		let response = await open({
-			title: get(t)['Import file description'],
+			title: get(currentTranslations)['Import file description'],
 			filters: [{ name: 'Profile file', extensions: ['r2z'] }]
 		});
 
@@ -77,7 +77,7 @@
 	async function exportFile() {
 		let dir = await open({
 			directory: true,
-			title: get(t)['Export file description']
+			title: get(currentTranslations)['Export file description']
 		});
 
 		if (!dir) return;
@@ -124,86 +124,86 @@
 	<Menubar.Root class="py-1 flex items-center">
 		<img src="favicon.png" alt="Gale logo" class="ml-4 mr-2 h-5 w-5 opacity-50" />
 		<Menubar.Menu>
-			<MenubarTrigger>{get(t)["File"]}</MenubarTrigger>
+			<MenubarTrigger>{get(currentTranslations)["File"]}</MenubarTrigger>
 			<Menubar.Content
 				class="bg-gray-800 shadow-xl flex-col flex gap-0.5 py-1 mt-0.5 rounded-lg border border-gray-600"
 			>
 				<MenubarItem on:click={() => invokeCommand('open_profile_dir')}
-					>{get(t)['Open profile directory']}</MenubarItem
+					>{get(currentTranslations)['Open profile directory']}</MenubarItem
 				>
-				<MenubarItem on:click={() => invokeCommand('open_bepinex_log')}>{get(t)['Open game logs']}</MenubarItem>
-				<MenubarItem on:click={() => invokeCommand('open_gale_log')}>{get(t)['Open gale logs']}</MenubarItem>
+				<MenubarItem on:click={() => invokeCommand('open_bepinex_log')}>{get(currentTranslations)['Open game logs']}</MenubarItem>
+				<MenubarItem on:click={() => invokeCommand('open_gale_log')}>{get(currentTranslations)['Open gale logs']}</MenubarItem>
 				<Menubar.Separator class="w-full h-[1px] bg-gray-600 my-0.5" />
 				<MenubarItem on:click={() => invokeCommand('clear_download_cache', { soft: true })}
-					>{get(t)['Clear unused mod cache']}</MenubarItem
+					>{get(currentTranslations)['Clear unused mod cache']}</MenubarItem
 				>
 				<MenubarItem on:click={() => invokeCommand('clear_download_cache', { soft: false })}
-					>{get(t)['Clear all cached mods']}</MenubarItem
+					>{get(currentTranslations)['Clear all cached mods']}</MenubarItem
 				>
 				<Menubar.Separator class="w-full h-[1px] bg-gray-600 my-0.5" />
-				<MenubarItem on:click={() => invokeCommand('trigger_mod_fetching')}>{get(t)['Fetch mods']}</MenubarItem>
+				<MenubarItem on:click={() => invokeCommand('trigger_mod_fetching')}>{get(currentTranslations)['Fetch mods']}</MenubarItem>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
-			<MenubarTrigger>{get(t)["Profile"]}</MenubarTrigger>
+			<MenubarTrigger>{get(currentTranslations)["Profile"]}</MenubarTrigger>
 			<Menubar.Content
 				class="bg-gray-800 shadow-xl flex-col flex gap-0.5 py-1 mt-0.5 rounded-lg border border-gray-600"
 			>
-				<MenubarItem on:click={() => (newProfileOpen = true)}>{get(t)['Create new profile']}</MenubarItem>
+				<MenubarItem on:click={() => (newProfileOpen = true)}>{get(currentTranslations)['Create new profile']}</MenubarItem>
 				<MenubarItem on:click={() => openProfileOperation('rename')}
-					>{get(t)['Rename active profile']}</MenubarItem
+					>{get(currentTranslations)['Rename active profile']}</MenubarItem
 				>
 				<MenubarItem on:click={() => openProfileOperation('duplicate')}
-					>{get(t)['Duplicate active profile']}</MenubarItem
+					>{get(currentTranslations)['Duplicate active profile']}</MenubarItem
 				>
 				<MenubarItem on:click={() => invokeCommand('copy_dependency_strings')}
-					>{get(t)['Copy dependency strings']}</MenubarItem
+					>{get(currentTranslations)['Copy dependency strings']}</MenubarItem
 				>
-				<MenubarItem on:click={() => invokeCommand('copy_debug_info')}>{get(t)['Copy debug info']}</MenubarItem>
+				<MenubarItem on:click={() => invokeCommand('copy_debug_info')}>{get(currentTranslations)['Copy debug info']}</MenubarItem>
 				<Menubar.Separator class="w-full h-[1px] bg-gray-600 my-0.5" />
-				<MenubarItem on:click={() => setAllModsState(true)}>{get(t)['Enable all mods']}</MenubarItem>
-				<MenubarItem on:click={() => setAllModsState(false)}>{get(t)['Disable all mods']}</MenubarItem>
+				<MenubarItem on:click={() => setAllModsState(true)}>{get(currentTranslations)['Enable all mods']}</MenubarItem>
+				<MenubarItem on:click={() => setAllModsState(false)}>{get(currentTranslations)['Disable all mods']}</MenubarItem>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
-			<MenubarTrigger>{get(t)["Import"]}</MenubarTrigger>
+			<MenubarTrigger>{get(currentTranslations)["Import"]}</MenubarTrigger>
 			<Menubar.Content
 				class="bg-gray-800 shadow-xl flex-col flex gap-0.5 py-1 mt-0.5 rounded-lg border border-gray-600"
 			>
-				<MenubarItem on:click={() => (importProfileOpen = true)}>{get(t)['Import profile from code']}</MenubarItem>
-				<MenubarItem on:click={importFile}>{get(t)['Import profile from file']}</MenubarItem>
-				<MenubarItem on:click={importModFile}>{get(t)['Import local mod from file']}</MenubarItem>
-				<MenubarItem on:click={importModDir}>{get(t)['Import local mod from directory']}</MenubarItem>
-				<MenubarItem on:click={() => (importR2Open = true)}>{get(t)['Import profiles from r2modman']}</MenubarItem>
+				<MenubarItem on:click={() => (importProfileOpen = true)}>{get(currentTranslations)['Import profile from code']}</MenubarItem>
+				<MenubarItem on:click={importFile}>{get(currentTranslations)['Import profile from file']}</MenubarItem>
+				<MenubarItem on:click={importModFile}>{get(currentTranslations)['Import local mod from file']}</MenubarItem>
+				<MenubarItem on:click={importModDir}>{get(currentTranslations)['Import local mod from directory']}</MenubarItem>
+				<MenubarItem on:click={() => (importR2Open = true)}>{get(currentTranslations)['Import profiles from r2modman']}</MenubarItem>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
-			<MenubarTrigger>{get(t)["Export"]}</MenubarTrigger>
+			<MenubarTrigger>{get(currentTranslations)["Export"]}</MenubarTrigger>
 			<Menubar.Content
 				class="bg-gray-800 shadow-xl flex-col flex gap-0.5 py-1 mt-0.5 rounded-lg border border-gray-600"
 			>
-				<MenubarItem on:click={() => exportCodePopup.open()}>{get(t)['Export profile as code']}</MenubarItem>
-				<MenubarItem on:click={exportFile}>{get(t)['Export profile as file']}</MenubarItem>
+				<MenubarItem on:click={() => exportCodePopup.open()}>{get(currentTranslations)['Export profile as code']}</MenubarItem>
+				<MenubarItem on:click={exportFile}>{get(currentTranslations)['Export profile as file']}</MenubarItem>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
-			<MenubarTrigger>{get(t)["Help"]}</MenubarTrigger>
+			<MenubarTrigger>{get(currentTranslations)["Help"]}</MenubarTrigger>
 			<Menubar.Content
 				class="bg-gray-800 shadow-xl flex-col flex gap-0.5 py-1 mt-0.5 rounded-lg border border-gray-600"
 			>
-				<MenubarItem on:click={refreshUpdate}>{get(t)['Check for app updates']}</MenubarItem>
+				<MenubarItem on:click={refreshUpdate}>{get(currentTranslations)['Check for app updates']}</MenubarItem>
 				<MenubarItem on:click={() => shellOpen('https://github.com/Kesomannen/ModManager/issues/')}
-					>{get(t)['Report a bug']}</MenubarItem
+					>{get(currentTranslations)['Report a bug']}</MenubarItem
 				>
 				<MenubarItem
 					on:click={() => {
 						shellOpen('https://discord.gg/lcmod');
-					}}>{get(t)['Join LC modding server']}</MenubarItem
+					}}>{get(currentTranslations)['Join LC modding server']}</MenubarItem
 				>
 				<MenubarItem
 					on:click={() => {
 						shellOpen('https://discord.com/channels/1168655651455639582/1246088342458863618');
-					}}>{get(t)['Open discord thread']}</MenubarItem
+					}}>{get(currentTranslations)['Open discord thread']}</MenubarItem
 				>
 			</Menubar.Content>
 		</Menubar.Menu>
@@ -221,30 +221,30 @@
 </div>
 
 <Popup
-	title="{get(t)[`${profileOperation} profile`]}"
+	title="{get(currentTranslations)[`${profileOperation} profile`]}"
 	canClose={!profileOperationInProgress}
 	bind:open={profileOperationOpen}
 >
 	<p class="mb-1 text-slate-300">
 		{profileOperation == 'duplicate'
-			? get(t)['Duplicate active profile description']
-			: get(t)['Rename active profile description']}
+			? get(currentTranslations)['Duplicate active profile description']
+			: get(currentTranslations)['Rename active profile description']}
 	</p>
 	<InputField
 		bind:value={profileOperationName}
-		placeholder="{get(t)['Enter name']}"
+		placeholder="{get(currentTranslations)['Enter name']}"
 		size="lg"
 		class="w-full"
 		on:submit={doProfileOperation}
 	/>
 	{#if profileOperation == 'duplicate'}
 		<p class="mt-3 text-slate-400 text-sm">
-			{get(t)['Duplicate active profile processing']}
+			{get(currentTranslations)['Duplicate active profile processing']}
 		</p>
 	{/if}
 	<div class="flex ml-auto justify-end gap-2 mt-2">
 		{#if !profileOperationInProgress}
-			<BigButton color="gray" on:click={() => (profileOperationOpen = false)}>{get(t)["Cancel"]}</BigButton>
+			<BigButton color="gray" on:click={() => (profileOperationOpen = false)}>{get(currentTranslations)["Cancel"]}</BigButton>
 		{/if}
 		<BigButton
 			color="green"
@@ -255,7 +255,7 @@
 			{#if profileOperationInProgress}
 				<Icon icon="mdi:loading" class="animate-spin text-lg my-1" />
 			{:else}
-				{get(t)[profileOperation]}
+				{get(currentTranslations)[profileOperation]}
 			{/if}
 		</BigButton>
 	</div>
